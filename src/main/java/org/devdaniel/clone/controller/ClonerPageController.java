@@ -105,4 +105,9 @@ public class ClonerPageController {
         return "terms";
     }
 
+    @GetMapping("/dicas")
+    public String dicasPage(Model model) {
+        return "dicas";
+    }
+
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>CloneXpert - Termos de Uso</title>
+    <title>CloneXpert - Dicas</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
@@ -118,33 +118,48 @@
 </nav>
 
 <!-- Conteúdo -->
+<!-- Conteúdo -->
 <div class="container" role="main">
-    <h1>Termos de Uso do CloneXpert</h1>
-    <p>Bem-vindo ao CloneXpert! Ao utilizar nossa plataforma, você concorda em cumprir e estar sujeito aos termos e condições abaixo descritos. Por favor, leia atentamente.</p>
+    <h1>Dicas para utilização da CloneXpert</h1>
 
-    <h2>1. Uso da Plataforma</h2>
-    <p>O CloneXpert oferece um serviço de clonagem de sites para fins de aprendizado e desenvolvimento. O usuário é responsável por assegurar que a clonagem realizada esteja em conformidade com as leis de direitos autorais e demais legislações aplicáveis.</p>
+    <!-- Aviso Importante reforçado -->
+    <div role="alert" aria-live="polite" aria-atomic="true" class="card border-danger border-3 mb-4" style="box-shadow: 0 0 15px rgba(220,53,69,0.7); border-radius: 12px;">
+        <div class="card-header bg-danger text-white fw-bold d-flex align-items-center" style="gap: 0.5rem; border-bottom: none; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+            <i class="bi bi-exclamation-triangle-fill" aria-hidden="true" style="font-size: 1.8rem;"></i>
+            Aviso Importante
+        </div>
+        <div class="card-body text-danger fs-5" style="line-height: 1.6;">
+            <p>
+                A plataforma <strong>não se responsabiliza</strong> por quaisquer conteúdos clonados. O usuário é o único responsável pelo uso do conteúdo obtido.
+            </p>
+            <p>
+                Nem todo site será clonado <strong>completamente pronto para uso</strong>. Alguns arquivos, recursos ou funcionalidades podem estar ausentes ou precisar de ajustes manuais após a clonagem.
+            </p>
+            <p>
+                Recomendamos revisar cuidadosamente o conteúdo clonado e consultar os nossos termos de uso antes de prosseguir.
+            </p>
+            <a href="/terms" class="btn btn-outline-danger fw-semibold" role="button" aria-label="Ir para página de termos de uso" style="border-width: 2px;">
+                Ver Termos de Uso
+            </a>
+        </div>
+    </div>
 
-    <h2>2. Responsabilidade pelo Conteúdo Clonado</h2>
-    <p>A plataforma não se responsabiliza por qualquer conteúdo obtido ou gerado a partir da clonagem realizada pelo usuário. Todo o conteúdo clonado é de responsabilidade exclusiva do usuário, que deve utilizar os dados de forma ética e legal.</p>
-
-    <h2>3. Limitações e Garantias</h2>
+    <!-- Dicas -->
+    <h2>Como usar a CloneXpert da melhor forma</h2>
     <ul>
-        <li>Nem todos os sites poderão ser clonados integralmente; alguns arquivos ou funcionalidades podem não funcionar corretamente após a clonagem.</li>
-        <li>O CloneXpert não garante que o serviço esteja livre de erros ou interrupções.</li>
-        <li>O usuário é responsável por revisar e ajustar manualmente o conteúdo clonado conforme necessário.</li>
+        <li><strong>Informe a URL correta:</strong> Sempre coloque a URL completa, iniciando com <code>http://</code> ou <code>https://</code> para garantir a clonagem.</li>
+        <li><strong>Escolha a profundidade ideal:</strong> Defina de 1 a 5 níveis para seguir links internos. Quanto maior, mais arquivos serão clonados, mas o processo pode levar mais tempo.</li>
+        <li><strong>Selecione o modo adequado:</strong>
+            <ul>
+                <li><strong>Static:</strong> Baixa arquivos estáticos (HTML, CSS, JS, imagens). Mais rápido e econômico.</li>
+                <li><strong>Headless:</strong> Simula um navegador real para capturar conteúdos dinâmicos gerados por JavaScript. Mais preciso, porém mais pesado e caro.</li>
+            </ul>
+        </li>
+        <li><strong>Links externos:</strong> Ative esta opção apenas se quiser que o clone siga links para outros domínios, mas use com cuidado para não aumentar muito o volume da clonagem.</li>
+        <li><strong>Revise o conteúdo clonado:</strong> Após a clonagem, verifique os arquivos baixados. Alguns recursos podem precisar de ajustes manuais para funcionar corretamente.</li>
+        <li><strong>Créditos:</strong> Fique atento ao custo da clonagem — modos mais avançados consomem mais créditos.</li>
+        <li><strong>Suporte:</strong> Qualquer dúvida ou problema, use o botão do WhatsApp no canto inferior direito para contato rápido.</li>
     </ul>
-
-    <h2>4. Privacidade e Dados</h2>
-    <p>Respeitamos sua privacidade e protegemos seus dados conforme nossa Política de Privacidade. Recomendamos a leitura desta política para entender como suas informações são tratadas.</p>
-
-    <h2>5. Modificações nos Termos</h2>
-    <p>O CloneXpert pode alterar estes Termos de Uso a qualquer momento, notificando os usuários por meio da plataforma. O uso contínuo do serviço após tais alterações implica aceitação das novas condições.</p>
-
-    <h2>6. Encerramento da Conta</h2>
-    <p>O usuário pode encerrar sua conta a qualquer momento, cessando o uso da plataforma. O CloneXpert reserva-se o direito de suspender ou encerrar contas que violem estes termos ou utilizem o serviço de forma indevida.</p>
-
-    <p>Obrigado por usar o CloneXpert!</p>
 </div>
 
 <!-- Botão flutuante WhatsApp -->
