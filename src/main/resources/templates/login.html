@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Entrar — CloneXpert</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Animate.css (leve animação) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <style>
+        :root{
+            --bg:#0f1724;
+            --card:#0b1220;
+            --accent:#7c3aed;
+            --muted: #9aa4b2;
+        }
+        html,body { height:100%; background: linear-gradient(180deg, #071020 0%, #0f1724 100%); color:#e6eef8; }
+        .login-wrap {
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:2rem;
+        }
+        .auth-card {
+            width:100%;
+            max-width:980px;
+            border-radius:1rem;
+            overflow:hidden;
+            box-shadow: 0 10px 30px rgba(2,6,23,0.7);
+            display:grid;
+            grid-template-columns: 1fr 420px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border:1px solid rgba(255,255,255,0.04);
+        }
+        .left {
+            position:relative;
+            padding:3rem 2.5rem;
+            background: linear-gradient(135deg, rgba(124,58,237,0.12), rgba(59,130,246,0.06));
+            display:flex;
+            flex-direction:column;
+            gap:1.25rem;
+        }
+        .left h2 { font-weight:700; letter-spacing:-0.4px; margin-bottom:0; }
+        .left p { color:var(--muted); margin-bottom:0.5rem; }
+        .brand {
+            display:flex;
+            align-items:center;
+            gap:0.75rem;
+        }
+        .brand .logo {
+            width:48px;
+            height:48px;
+            border-radius:10px;
+            background:linear-gradient(135deg,var(--accent),#06b6d4);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-weight:700;
+            font-size:20px;
+            box-shadow: 0 6px 18px rgba(124,58,237,0.18);
+        }
+
+        .right {
+            padding:2.5rem;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+        }
+
+        .form-card {
+            width:100%;
+            max-width:360px;
+        }
+
+        .form-control, .form-select {
+            background: rgba(255,255,255,0.02);
+            border:1px solid rgba(255,255,255,0.06);
+            color: #eaf2ff;
+        }
+        .form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(124,58,237,0.15);
+            border-color: var(--accent);
+        }
+
+        .v-divider {
+            width:1px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+        }
+
+        .small-muted { color:var(--muted); font-size:0.9rem; }
+
+        @media (max-width: 900px) {
+            .auth-card { grid-template-columns: 1fr; }
+            .v-divider { display:none; }
+            .left { padding:2rem; }
+            .right { padding:2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="login-wrap">
+    <div class="auth-card animate__animated animate__fadeInUp">
+        <div class="left">
+            <div class="brand">
+                <div class="logo">CXP</div>
+                <div>
+                    <h4 style="margin:0">CloneXpert</h4>
+                    <div class="small-muted">Ferramenta de clonagem</div>
+                </div>
+            </div>
+
+            <h2>Bem-vindo de volta</h2>
+            <p class="small-muted">Entre com sua conta para continuar. Se ainda não tem conta, peça ao administrador.</p>
+
+            <ul class="small-muted" style="margin-top:1rem; padding-left:1.2rem;">
+                <li>Clonagem de sites estática e headless</li>
+                <li>Exportação em ZIP imediata</li>
+                <li>Painel de usuários e controle.</li>
+            </ul>
+
+            <div style="margin-top:auto;">
+                <small class="small-muted">Dica: sempre saiba qual é o tipo do site a ser clonado; se é HTML puro ou FRAMEWORK.</small>
+            </div>
+        </div>
+
+        <div class="right">
+            <div class="form-card">
+                <div th:if="${errorMessage != null}" class="alert alert-danger animate__animated" th:text="${errorMessage}"></div>
+                <div th:if="${successMessage != null}" class="alert alert-success animate__animated" th:text="${successMessage}"></div>
+
+                <form th:action="@{/login}" method="post" class="needs-validation" novalidate>
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label small-muted">Usuário</label>
+                        <input id="username" name="username" type="text" class="form-control" placeholder="seu usuario" required autofocus>
+                        <div class="invalid-feedback">Informe o usuário.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label small-muted">Senha</label>
+                        <input id="password" name="password" type="password" class="form-control" placeholder="••••••••" required>
+                        <div class="invalid-feedback">Informe a senha.</div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="remember-me" id="remember">
+                            <label class="form-check-label small-muted" for="remember">Lembrar-me</label>
+                        </div>
+                        <a href="#" class="small-muted">Esqueceu a senha?</a>
+                    </div>
+
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-lg" style="background: linear-gradient(90deg,var(--accent),#06b6d4); color:white;">
+                            Entrar
+                        </button>
+                    </div>
+
+                    <div class="text-center small-muted mt-4">
+                        <small>Ao continuar você concorda com os termos.</small>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Botão flutuante WhatsApp -->
+    <a href="https://wa.me/5511999999999" target="_blank"
+       aria-label="Contato pelo WhatsApp"
+       style="
+     position: fixed;
+     bottom: 20px;
+     right: 20px;
+     background-color: #25D366;
+     color: white;
+     border-radius: 50%;
+     width: 60px;
+     height: 60px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+     z-index: 1000;
+     text-decoration: none;
+     font-size: 30px;
+     transition: background-color 0.3s ease;
+   "
+       onmouseover="this.style.backgroundColor='#128C7E';"
+       onmouseout="this.style.backgroundColor='#25D366';"
+    >
+        <i class="bi bi-whatsapp" aria-hidden="true"></i>
+    </a>
+
+</div>
+
+<!-- bootstrap bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // client-side bootstrap form validation
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })();
+
+    window.addEventListener('load', function () {
+        const u = document.getElementById('username');
+        if (u) { u.focus(); }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CloneXpert - Clonagem Inteligente e Controle Total</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #222;
+            min-height: 100vh;
+            margin: 0;
+            padding: 3rem 1rem;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+        header {
+            max-width: 960px;
+            margin: 0 auto 3rem auto;
+            text-align: center;
+            padding: 0 1rem;
+        }
+        header h1 {
+            font-size: 3.8rem;
+            font-weight: 900;
+            color: #2a6ef7;
+            margin-bottom: 0.1rem;
+            letter-spacing: -1.2px;
+            transition: color 0.4s ease;
+        }
+        header p {
+            font-size: 1.35rem;
+            font-weight: 500;
+            color: #555;
+            margin-top: 0;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+            transition: color 0.4s ease;
+        }
+        main {
+            max-width: 960px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+            gap: 2.5rem;
+            padding: 0 1rem;
+        }
+        section.card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 10px 28px rgba(40, 60, 90, 0.07);
+            display: flex;
+            flex-direction: column;
+            gap: 1.3rem;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+        section.card:hover {
+            box-shadow: 0 18px 38px rgba(40, 60, 90, 0.12);
+        }
+        section.card h2 {
+            font-weight: 700;
+            font-size: 2.1rem;
+            color: #2a6ef7;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+            transition: color 0.4s ease;
+        }
+        section.card h2 .bi {
+            font-size: 2.5rem;
+            color: #2a6ef7;
+            transition: color 0.4s ease;
+        }
+        section.card p, section.card ul {
+            font-size: 1.12rem;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 1rem;
+            transition: color 0.4s ease;
+        }
+        section.card ul {
+            padding-left: 1.2rem;
+            color: #444;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+        section.card ul li {
+            margin-bottom: 0.55rem;
+        }
+
+        /* Botões */
+        .btn-signup {
+            font-weight: 700;
+            padding: 1.1rem 2.7rem;
+            font-size: 1.22rem;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            background-color: #2a6ef7;
+            color: white;
+            box-shadow: 0 10px 28px rgba(42, 110, 247, 0.45);
+            user-select: none;
+            max-width: 240px;
+            text-align: center;
+            transition: background-color 0.35s ease, box-shadow 0.35s ease;
+            text-decoration: none;
+            align-self: flex-start;
+        }
+        .btn-signup:hover, .btn-signup:focus {
+            background-color: #204ecc;
+            box-shadow: 0 14px 38px rgba(32, 78, 204, 0.7);
+            outline: none;
+            text-decoration: none;
+            color: white;
+        }
+
+        /* Dark mode */
+        body.dark {
+            background: #12181f;
+            color: #d1d5db;
+        }
+        body.dark header h1 {
+            color: #81aaff;
+        }
+        body.dark header p {
+            color: #cbd5e1;
+        }
+        body.dark section.card {
+            background: #1f2937;
+            color: #d1d5db;
+            box-shadow: 0 10px 28px rgba(10, 20, 35, 0.5);
+        }
+        body.dark section.card h2,
+        body.dark section.card h2 .bi {
+            color: #81aaff;
+        }
+        body.dark section.card p,
+        body.dark section.card ul {
+            color: #d1d5db;
+        }
+        body.dark section.card ul {
+            color: #a5b4fc;
+        }
+        body.dark .btn-signup {
+            background-color: #81aaff;
+            color: #0a0f1a;
+            box-shadow: 0 10px 28px rgba(129, 170, 255, 0.7);
+        }
+        body.dark .btn-signup:hover,
+        body.dark .btn-signup:focus {
+            background-color: #4f7bcc;
+            box-shadow: 0 14px 38px rgba(79, 123, 204, 0.85);
+            color: #0a0f1a;
+        }
+        /* Top-right buttons */
+        #btnLogin, #darkModeToggle {
+            position: fixed;
+            top: 1rem;
+            font-size: 1.9rem;
+            padding: 0.15rem 0.4rem 0 0.4rem;
+            cursor: pointer;
+            user-select: none;
+            line-height: 1;
+            border: none;
+            background: none;
+            color: #2a6ef7;
+            transition: color 0.4s ease;
+            z-index: 1001;
+        }
+        #btnLogin {
+            right: 1rem;
+        }
+        #darkModeToggle {
+            right: 4.5rem;
+        }
+        #btnLogin:hover, #btnLogin:focus,
+        #darkModeToggle:hover, #darkModeToggle:focus {
+            color: #204ecc;
+            outline: none;
+        }
+        body.dark #btnLogin, body.dark #darkModeToggle {
+            color: #81aaff;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 700px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+            #btnLogin, #darkModeToggle {
+                top: 0.9rem;
+                font-size: 1.6rem;
+            }
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 4rem;
+            padding: 1rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            transition: color 0.4s ease;
+        }
+        body.dark footer {
+            color: #888;
+        }
+
+        /* User Section style like version 2 */
+        section#user {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        section#user p {
+            font-size: 1.3rem;
+            max-width: 450px;
+            margin: 0 auto 1.8rem auto;
+            color: #444;
+        }
+        body.dark section#user p {
+            color: #cbd5e1;
+        }
+        section#user .btn-signup {
+            max-width: 320px;
+            font-size: 1.25rem;
+            padding: 1.3rem 3rem;
+            align-self: center;
+        }
+    </style>
+</head>
+<body>
+<header role="banner">
+    <h1>CloneXpert</h1>
+    <p>Clonagem inteligente e controle total dos seus sites com agilidade e segurança.</p>
+</header>
+
+<!-- Botões fixos topo direito -->
+<button id="btnLogin" aria-label="Entrar na conta" title="Entrar na conta" onclick="location.href='/login'">
+    <i class="bi bi-person-circle"></i>
+</button>
+<button id="darkModeToggle" aria-label="Alternar modo claro e escuro" title="Alternar modo claro e escuro" aria-pressed="false">
+    <i class="bi bi-moon-stars"></i>
+</button>
+
+<main role="main" aria-label="Conteúdo principal do site">
+    <section class="card" aria-labelledby="overview-title">
+        <h2 id="overview-title">
+            <i class="bi bi-graph-up-arrow"></i> Visão Geral
+        </h2>
+        <p>
+            CloneXpert é uma solução avançada para clonagem rápida, eficiente e segura de sites completos. Nosso sistema facilita o controle e o gerenciamento de múltiplos clones, oferecendo uma experiência intuitiva e poderosa para desenvolvedores, analistas e gestores.
+        </p>
+    </section>
+
+    <section class="card" id="user" aria-labelledby="user-title">
+        <h2 id="user-title">
+            <i class="bi bi-person-badge"></i> Área do Usuário
+        </h2>
+        <p>
+            Registre-se para acessar funcionalidades exclusivas, acompanhar suas clonagens e receber suporte prioritário. Experimente o poder do CloneXpert e eleve sua produtividade!
+        </p>
+        <a href="/signup" class="btn-signup" aria-label="Assinar CloneXpert">Assinar Agora</a>
+    </section>
+
+    <section class="card" aria-labelledby="benefits-title">
+        <h2 id="benefits-title">
+            <i class="bi bi-gem"></i> Benefícios
+        </h2>
+        <ul>
+            <li>Automatize a cópia de sites para testes, backups e análise</li>
+            <li>Economize tempo com um processo simplificado e intuitivo</li>
+            <li>Tenha controle detalhado do status e histórico das clonagens</li>
+            <li>Segurança e privacidade garantidas durante todo o processo</li>
+            <li>Suporte dedicado e atualizações constantes</li>
+        </ul>
+    </section>
+
+    <section class="card" aria-labelledby="how-it-works-title">
+        <h2 id="how-it-works-title">
+            <i class="bi bi-gear-wide-connected"></i> Como Funciona
+        </h2>
+        <p>
+            Basta informar a URL do site que deseja clonar, escolher o modo de clonagem e a profundidade desejada. Nossa plataforma realiza a captura eficiente dos recursos, preservando links internos e configurando as permissões para links externos conforme sua necessidade.
+        </p>
+    </section>
+
+    <section class="card" aria-labelledby="features-title">
+        <h2 id="features-title">
+            <i class="bi bi-kanban"></i> Recursos Principais
+        </h2>
+        <ul>
+            <li>Modos de clonagem: estático e headless</li>
+            <li>Configuração de profundidade para captura de links</li>
+            <li>Permissão para links externos para ampliar a captura</li>
+            <li>Download fácil do pacote clonado em ZIP</li>
+            <li>Interface moderna, responsiva e amigável</li>
+        </ul>
+    </section>
+
+</main>
+
+<!-- Botão flutuante WhatsApp -->
+<a href="https://wa.me/5511999999999" target="_blank"
+   aria-label="Contato pelo WhatsApp"
+   style="
+     position: fixed;
+     bottom: 20px;
+     right: 20px;
+     background-color: #25D366;
+     color: white;
+     border-radius: 50%;
+     width: 60px;
+     height: 60px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+     z-index: 1000;
+     text-decoration: none;
+     font-size: 30px;
+     transition: background-color 0.3s ease;
+   "
+   onmouseover="this.style.backgroundColor='#128C7E';"
+   onmouseout="this.style.backgroundColor='#25D366';"
+>
+    <i class="bi bi-whatsapp" aria-hidden="true"></i>
+</a>
+
+
+<footer role="contentinfo">
+    &copy; 2025 CloneXpert. Todos os direitos reservados.
+</footer>
+
+<script>
+    const darkToggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+    const icon = darkToggle.querySelector('i');
+
+    // Checar preferência salva no localStorage
+    if (localStorage.getItem('cloneXpertDarkMode') === 'true') {
+        body.classList.add('dark');
+        icon.className = 'bi bi-sun-fill';
+        darkToggle.setAttribute('aria-pressed', 'true');
+    }
+
+    darkToggle.addEventListener('click', () => {
+        body.classList.toggle('dark');
+        const isDark = body.classList.contains('dark');
+        localStorage.setItem('cloneXpertDarkMode', isDark);
+        icon.className = isDark ? 'bi bi-sun-fill' : 'bi bi-moon-stars';
+        darkToggle.setAttribute('aria-pressed', isDark.toString());
+    });
+</script>
+</body>
+</html>

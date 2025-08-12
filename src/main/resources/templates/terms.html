@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CloneXpert - Termos de Uso</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <!-- Bootstrap Icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff, #d9e4ff);
+            min-height: 100vh;
+            margin: 0;
+            color: #222;
+        }
+
+        /* Navbar */
+        nav.navbar {
+            background: #3b82f6;
+            box-shadow: 0 4px 15px rgb(59 130 246 / 0.3);
+            padding: 0.85rem 1.5rem;
+        }
+        nav.navbar .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+            user-select: none;
+            text-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
+        }
+        nav.navbar .btn-primary {
+            background-color: #2563eb;
+            border: none;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgb(37 99 235 / 0.5);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        nav.navbar .btn-primary:hover,
+        nav.navbar .btn-primary:focus {
+            background-color: #1d4ed8;
+            box-shadow: 0 7px 20px rgb(29 78 216 / 0.7);
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            padding: 2rem 1rem;
+        }
+
+        h1 {
+            font-weight: 700;
+            font-size: 2.25rem;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+        h2 {
+            font-weight: 600;
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            color: #2563eb;
+            user-select: text;
+        }
+        p {
+            font-size: 1rem;
+            color: #334155;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+            color: #334155;
+        }
+        ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Rodapé */
+        footer {
+            margin-top: 60px;
+            padding: 24px 0;
+            text-align: center;
+            color: #64748b;
+            font-weight: 500;
+            font-size: 0.95rem;
+            user-select: none;
+        }
+
+        /* Responsividade */
+        @media (max-width: 576px) {
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm" role="navigation" aria-label="Menu principal CloneXpert">
+    <div class="container">
+        <a class="navbar-brand" href="/" aria-label="Página inicial do CloneXpert">CloneXpert</a>
+        <a class="btn btn-primary" href="/painel" role="button" aria-label="Voltar para a página inicial">
+            <i class="bi bi-arrow-left-circle"></i> Voltar
+        </a>
+    </div>
+</nav>
+
+<!-- Conteúdo -->
+<div class="container" role="main">
+    <h1>Termos de Uso do CloneXpert</h1>
+    <p>Bem-vindo ao CloneXpert! Ao utilizar nossa plataforma, você concorda em cumprir e estar sujeito aos termos e condições abaixo descritos. Por favor, leia atentamente.</p>
+
+    <h2>1. Uso da Plataforma</h2>
+    <p>O CloneXpert oferece um serviço de clonagem de sites para fins de aprendizado e desenvolvimento. O usuário é responsável por assegurar que a clonagem realizada esteja em conformidade com as leis de direitos autorais e demais legislações aplicáveis.</p>
+
+    <h2>2. Responsabilidade pelo Conteúdo Clonado</h2>
+    <p>A plataforma não se responsabiliza por qualquer conteúdo obtido ou gerado a partir da clonagem realizada pelo usuário. Todo o conteúdo clonado é de responsabilidade exclusiva do usuário, que deve utilizar os dados de forma ética e legal.</p>
+
+    <h2>3. Limitações e Garantias</h2>
+    <ul>
+        <li>Nem todos os sites poderão ser clonados integralmente; alguns arquivos ou funcionalidades podem não funcionar corretamente após a clonagem.</li>
+        <li>O CloneXpert não garante que o serviço esteja livre de erros ou interrupções.</li>
+        <li>O usuário é responsável por revisar e ajustar manualmente o conteúdo clonado conforme necessário.</li>
+    </ul>
+
+    <h2>4. Privacidade e Dados</h2>
+    <p>Respeitamos sua privacidade e protegemos seus dados conforme nossa Política de Privacidade. Recomendamos a leitura desta política para entender como suas informações são tratadas.</p>
+
+    <h2>5. Modificações nos Termos</h2>
+    <p>O CloneXpert pode alterar estes Termos de Uso a qualquer momento, notificando os usuários por meio da plataforma. O uso contínuo do serviço após tais alterações implica aceitação das novas condições.</p>
+
+    <h2>6. Encerramento da Conta</h2>
+    <p>O usuário pode encerrar sua conta a qualquer momento, cessando o uso da plataforma. O CloneXpert reserva-se o direito de suspender ou encerrar contas que violem estes termos ou utilizem o serviço de forma indevida.</p>
+
+    <p>Obrigado por usar o CloneXpert!</p>
+</div>
+
+<!-- Botão flutuante WhatsApp -->
+<a href="https://wa.me/5511999999999" target="_blank"
+   aria-label="Contato pelo WhatsApp"
+   style="
+     position: fixed;
+     bottom: 20px;
+     right: 20px;
+     background-color: #25D366;
+     color: white;
+     border-radius: 50%;
+     width: 60px;
+     height: 60px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+     z-index: 1000;
+     text-decoration: none;
+     font-size: 30px;
+     transition: background-color 0.3s ease;
+   "
+   onmouseover="this.style.backgroundColor='#128C7E';"
+   onmouseout="this.style.backgroundColor='#25D366';"
+>
+    <i class="bi bi-whatsapp" aria-hidden="true"></i>
+</a>
+
+
+<!-- Rodapé -->
+<footer>
+    <p>&copy; 2025 CloneXpert. Todos os direitos reservados.</p>
+</footer>
+
+<!-- Bootstrap JS -->
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

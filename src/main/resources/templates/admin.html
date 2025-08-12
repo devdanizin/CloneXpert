@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Painel Admin - Profiles</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+        header {
+            padding: 2rem 0 1rem;
+            text-align: center;
+            font-weight: 600;
+            color: #212529;
+        }
+        .form-section {
+            background: #fff;
+            padding: 1.75rem 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 8px rgb(0 0 0 / 0.05);
+            margin-bottom: 2rem;
+        }
+        .btn-icon {
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+        .table thead {
+            background-color: #343a40;
+            color: #fff;
+        }
+        .table tbody tr:hover {
+            background-color: #e9ecef;
+        }
+        .modal-header {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container my-4">
+
+    <header>
+        <h1 class="h3">Painel Admin - Profiles</h1>
+    </header>
+
+    <!-- Alertas -->
+    <div id="alertPlaceholder"></div>
+
+    <!-- Formulário de criação/edição -->
+    <section class="form-section shadow-sm">
+        <form id="profileForm" class="row g-3 needs-validation" novalidate>
+            <input type="hidden" id="profileId" />
+
+            <div class="col-md-6">
+                <label for="name" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="name" placeholder="Nome do profile" required minlength="3" />
+                <div class="invalid-feedback">Informe um nome válido (mín. 3 caracteres).</div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="password" class="form-label">Senha</label>
+                <input type="password" class="form-control" id="password" placeholder="Senha" required minlength="4" />
+                <div class="invalid-feedback">Senha com mínimo de 4 caracteres.</div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="role" class="form-label">Papel</label>
+                <select id="role" class="form-select" required>
+                    <option value="" selected disabled>Selecione o papel</option>
+                    <option value="USER">USER</option>
+                    <option value="ADMIN">ADMIN</option>
+                </select>
+                <div class="invalid-feedback">Escolha um papel válido.</div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="credit" class="form-label">Créditos</label>
+                <input type="number" class="form-control" id="credit" min="0" value="0" required />
+                <div class="invalid-feedback">Créditos devem ser zero ou mais.</div>
+            </div>
+
+            <div class="col-12 d-flex justify-content-end gap-2">
+                <button type="button" id="btnCancel" class="btn btn-outline-secondary" style="display:none;">Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="btnSave">
+                    <i class="bi bi-save2 me-1"></i> Salvar
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Tabela de profiles -->
+    <section class="table-responsive shadow-sm bg-white rounded">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Papel</th>
+                <th>Créditos</th>
+                <th class="text-center">Ações</th>
+            </tr>
+            </thead>
+            <tbody id="profilesTableBody"></tbody>
+        </table>
+    </section>
+
+</div>
+
+<!-- Modal Adicionar Créditos -->
+<div class="modal fade" id="creditsModal" tabindex="-1" aria-labelledby="creditsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form id="addCreditsForm" class="needs-validation" novalidate>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="creditsModalLabel">Adicionar Créditos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="creditsProfileId" />
+                    <div class="mb-3">
+                        <label for="addCreditsInput" class="form-label">Quantidade</label>
+                        <input type="number" class="form-control" id="addCreditsInput" min="1" required />
+                        <div class="invalid-feedback">Informe um valor válido maior que zero.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-plus-circle me-1"></i> Adicionar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Botão flutuante WhatsApp -->
+<a href="https://wa.me/5511999999999" target="_blank"
+   aria-label="Contato pelo WhatsApp"
+   style="
+     position: fixed;
+     bottom: 20px;
+     right: 20px;
+     background-color: #25D366;
+     color: white;
+     border-radius: 50%;
+     width: 60px;
+     height: 60px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+     z-index: 1000;
+     text-decoration: none;
+     font-size: 30px;
+     transition: background-color 0.3s ease;
+   "
+   onmouseover="this.style.backgroundColor='#128C7E';"
+   onmouseout="this.style.backgroundColor='#25D366';"
+>
+    <i class="bi bi-whatsapp" aria-hidden="true"></i>
+</a>
+
+
+<!-- Bootstrap Bundle JS (inclui Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    (() => {
+        const apiUrl = '/api/v1/profiles';
+
+        const form = document.getElementById('profileForm');
+        const profilesTableBody = document.getElementById('profilesTableBody');
+        const profileIdInput = document.getElementById('profileId');
+        const nameInput = document.getElementById('name');
+        const passwordInput = document.getElementById('password');
+        const roleInput = document.getElementById('role');
+        const creditInput = document.getElementById('credit');
+        const btnCancel = document.getElementById('btnCancel');
+        const btnSave = document.getElementById('btnSave');
+        const alertPlaceholder = document.getElementById('alertPlaceholder');
+
+        const creditsModal = new bootstrap.Modal(document.getElementById('creditsModal'));
+        const creditsProfileIdInput = document.getElementById('creditsProfileId');
+        const addCreditsInput = document.getElementById('addCreditsInput');
+        const addCreditsForm = document.getElementById('addCreditsForm');
+
+        let editingId = null;
+
+        // Mostrar alertas Bootstrap
+        function showAlert(message, type = 'success') {
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = `
+      <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+      </div>
+    `;
+            alertPlaceholder.append(wrapper);
+        }
+
+        // Escape HTML para segurança básica
+        function escapeHTML(str) {
+            return str.replace(/[&<>"']/g, (m) => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            })[m]);
+        }
+
+        // Limpar formulário e resetar estado
+        function clearForm() {
+            profileIdInput.value = '';
+            form.reset();
+            btnCancel.style.display = 'none';
+            btnSave.innerHTML = `<i class="bi bi-save2 me-1"></i> Salvar`;
+            editingId = null;
+            form.classList.remove('was-validated');
+        }
+
+        // Carregar profiles da API
+        async function fetchProfiles() {
+            try {
+                const res = await fetch(apiUrl);
+                if (!res.ok) throw new Error('Erro ao buscar profiles');
+                const profiles = await res.json();
+
+                profilesTableBody.innerHTML = '';
+                profiles.forEach(profile => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+          <td>${escapeHTML(profile.name)}</td>
+          <td>${escapeHTML(profile.role)}</td>
+          <td>${profile.credit}</td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-primary me-1 btn-edit" title="Editar" aria-label="Editar ${escapeHTML(profile.name)}" data-id="${profile.id}">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn btn-sm btn-danger me-1 btn-delete" title="Excluir" aria-label="Excluir ${escapeHTML(profile.name)}" data-id="${profile.id}">
+              <i class="bi bi-trash"></i>
+            </button>
+            <button class="btn btn-sm btn-success btn-add-credit" title="Adicionar créditos" aria-label="Adicionar créditos para ${escapeHTML(profile.name)}" data-id="${profile.id}">
+              <i class="bi bi-credit-card"></i>
+            </button>
+          </td>
+        `;
+                    profilesTableBody.appendChild(tr);
+                });
+
+                attachTableListeners();
+            } catch (error) {
+                showAlert(error.message, 'danger');
+            }
+        }
+
+        // Eventos para botões na tabela
+        function attachTableListeners() {
+            document.querySelectorAll('.btn-edit').forEach(btn => {
+                btn.onclick = () => loadProfileToEdit(btn.dataset.id);
+            });
+            document.querySelectorAll('.btn-delete').forEach(btn => {
+                btn.onclick = () => deleteProfile(btn.dataset.id);
+            });
+            document.querySelectorAll('.btn-add-credit').forEach(btn => {
+                btn.onclick = () => openAddCreditsModal(btn.dataset.id);
+            });
+        }
+
+        // Carregar profile para edição
+        async function loadProfileToEdit(id) {
+            try {
+                const res = await fetch(`${apiUrl}/${id}`);
+                if (!res.ok) throw new Error('Profile não encontrado');
+                const profile = await res.json();
+
+                editingId = id;
+                profileIdInput.value = profile.id;
+                nameInput.value = profile.name;
+                passwordInput.value = profile.password;
+                roleInput.value = profile.role;
+                creditInput.value = profile.credit;
+
+                btnCancel.style.display = 'inline-block';
+                btnSave.innerHTML = `<i class="bi bi-pencil me-1"></i> Atualizar`;
+                form.classList.remove('was-validated');
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } catch (error) {
+                showAlert(error.message, 'danger');
+            }
+        }
+
+        btnCancel.onclick = () => {
+            clearForm();
+        };
+
+        // Validação Bootstrap + submit form principal
+        form.addEventListener('submit', async e => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            form.classList.add('was-validated');
+            if (!form.checkValidity()) return;
+
+            btnSave.disabled = true;
+
+            const profileData = {
+                name: nameInput.value.trim(),
+                password: passwordInput.value,
+                role: roleInput.value,
+                credit: parseInt(creditInput.value)
+            };
+
+            try {
+                let res;
+                if (editingId) {
+                    res = await fetch(`${apiUrl}/${editingId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(profileData)
+                    });
+                } else {
+                    res = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(profileData)
+                    });
+                }
+                if (!res.ok) throw new Error('Erro ao salvar profile');
+
+                showAlert(editingId ? 'Profile atualizado com sucesso!' : 'Profile criado com sucesso!');
+                clearForm();
+                fetchProfiles();
+            } catch (error) {
+                showAlert(error.message, 'danger');
+            } finally {
+                btnSave.disabled = false;
+            }
+        });
+
+        // Deletar profile
+        async function deleteProfile(id) {
+            if (!confirm('Confirma a exclusão deste profile?')) return;
+            try {
+                const res = await fetch(`${apiUrl}/${id}`, { method: 'DELETE' });
+                if (!res.ok) throw new Error('Erro ao excluir profile');
+                showAlert('Profile excluído com sucesso!');
+                fetchProfiles();
+            } catch (error) {
+                showAlert(error.message, 'danger');
+            }
+        }
+
+        // Abrir modal adicionar créditos
+        function openAddCreditsModal(id) {
+            creditsProfileIdInput.value = id;
+            addCreditsInput.value = '';
+            addCreditsForm.classList.remove('was-validated');
+            creditsModal.show();
+        }
+
+        // Enviar formulário adicionar créditos
+        addCreditsForm.addEventListener('submit', async e => {
+            e.preventDefault();
+            e.stopPropagation();
+            addCreditsForm.classList.add('was-validated');
+            if (!addCreditsForm.checkValidity()) return;
+
+            const id = creditsProfileIdInput.value;
+            const amount = parseInt(addCreditsInput.value);
+
+            try {
+                const res = await fetch(`${apiUrl}/${id}/credits`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ amount })
+                });
+                if (!res.ok) throw new Error('Erro ao adicionar créditos');
+
+                showAlert('Créditos adicionados com sucesso!');
+                creditsModal.hide();
+                fetchProfiles();
+            } catch (error) {
+                showAlert(error.message, 'danger');
+            }
+        });
+
+        fetchProfiles();
+    })();
+</script>
+
+</body>
+</html>
