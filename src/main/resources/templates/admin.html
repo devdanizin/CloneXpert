@@ -13,9 +13,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         body {
+            font-family: 'Inter', sans-serif;
             background-color: #f8f9fa;
             min-height: 100vh;
+            color: #212529;
+        }
+        body.dark {
+            background-color: #181c24;
+            color: #e2e8f0;
         }
         header {
             padding: 2rem 0 1rem;
@@ -23,12 +30,19 @@
             font-weight: 600;
             color: #212529;
         }
+        body.dark header {
+            color: #81aaff;
+        }
         .form-section {
             background: #fff;
             padding: 1.75rem 2rem;
             border-radius: 0.5rem;
             box-shadow: 0 4px 8px rgb(0 0 0 / 0.05);
             margin-bottom: 2rem;
+        }
+        body.dark .form-section {
+            background: #23293a;
+            color: #e2e8f0;
         }
         .btn-icon {
             font-size: 1.1rem;
@@ -38,15 +52,58 @@
             background-color: #343a40;
             color: #fff;
         }
+        body.dark .table thead {
+            background-color: #23293a;
+            color: #81aaff;
+        }
         .table tbody tr:hover {
             background-color: #e9ecef;
+        }
+        body.dark .table tbody tr:hover {
+            background-color: #23293a;
         }
         .modal-header {
             border-bottom: none;
         }
+        /* Botão modo escuro */
+        #darkModeToggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            color: #212529; /* preto no modo claro */
+            z-index: 2000;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        body.dark #darkModeToggle {
+            color: #ffe066;
+        }
+        body.dark .btn-primary {
+            background-color: #81aaff;
+            color: #181c24;
+        }
+        body.dark .btn-success {
+            background-color: #15803d;
+            color: #e2e8f0;
+        }
+        body.dark .btn-outline-secondary {
+            color: #81aaff;
+            border-color: #81aaff;
+        }
+        body.dark .btn-outline-secondary:hover,
+        body.dark .btn-outline-secondary:focus {
+            background-color: #81aaff;
+            color: #23293a;
+        }
     </style>
 </head>
 <body>
+<button id="darkModeToggle" aria-label="Alternar modo claro/escuro" title="Modo escuro">
+    <i class="bi bi-moon-stars"></i>
+</button>
 
 <div class="container my-4">
 
@@ -100,7 +157,7 @@
     </section>
 
     <!-- Tabela de profiles -->
-    <section class="table-responsive shadow-sm bg-white rounded">
+    <section class="table-responsive shadow-sm bg-white rounded mb-4">
         <table class="table table-hover align-middle mb-0">
             <thead>
             <tr>
@@ -111,6 +168,34 @@
             </tr>
             </thead>
             <tbody id="profilesTableBody"></tbody>
+        </table>
+    </section>
+
+    <!-- Tabela de Feedbacks -->
+    <section class="table-responsive shadow-sm bg-white rounded">
+        <h2 class="h5 p-3 mb-0 border-bottom"><i class="bi bi-chat-dots"></i> Feedbacks Recebidos</h2>
+        <table class="table table-hover align-middle mb-0" id="feedbacksTable">
+            <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Mensagem</th>
+                <th class="text-center">Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="feed : ${feedbacks}" th:attr="data-id=${feed.id}">
+                <td th:text="${feed.name}"></td>
+                <td th:text="${feed.message}"></td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-sm btn-danger btn-delete-feedback" title="Excluir Feedback" aria-label="Excluir Feedback" th:attr="data-id=${feed.id}">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr th:if="${feedbacks == null or #lists.isEmpty(feedbacks)}">
+                <td colspan="2" class="text-center text-muted">Nenhum feedback recebido ainda.</td>
+            </tr>
+            </tbody>
         </table>
     </section>
 
@@ -397,8 +482,48 @@
             }
         });
 
+        // Exclusão de feedback via fetch
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.btn-delete-feedback').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    if (!confirm('Confirma a exclusão deste feedback?')) return;
+                    const id = btn.getAttribute('data-id');
+                    fetch(`/api/v1/feedback/${id}`, {
+                        method: 'DELETE'
+                    }).then(resp => {
+                        if (resp.ok) {
+                            // Remove a linha da tabela
+                            const tr = btn.closest('tr');
+                            tr.parentNode.removeChild(tr);
+                        } else {
+                            alert('Erro ao excluir feedback!');
+                        }
+                    }).catch(() => {
+                        alert('Erro ao excluir feedback!');
+                    });
+                });
+            });
+        });
+
         fetchProfiles();
     })();
+
+    // Modo escuro
+    const darkToggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+    const icon = darkToggle.querySelector('i');
+    if (localStorage.getItem('cloneXpertDarkMode') === 'true') {
+        body.classList.add('dark');
+        icon.className = 'bi bi-sun-fill';
+        darkToggle.setAttribute('aria-pressed', 'true');
+    }
+    darkToggle.addEventListener('click', () => {
+        body.classList.toggle('dark');
+        const isDark = body.classList.contains('dark');
+        localStorage.setItem('cloneXpertDarkMode', isDark);
+        icon.className = isDark ? 'bi bi-sun-fill' : 'bi bi-moon-stars';
+        darkToggle.setAttribute('aria-pressed', isDark.toString());
+    });
 </script>
 
 </body>

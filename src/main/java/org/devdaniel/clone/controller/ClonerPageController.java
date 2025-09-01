@@ -3,6 +3,7 @@ package org.devdaniel.clone.controller;
 import org.devdaniel.clone.entity.Profile;
 import org.devdaniel.clone.repository.ProfileRepository;
 import org.devdaniel.clone.security.CustomUserDetails;
+import org.devdaniel.clone.service.FeedService;
 import org.devdaniel.clone.service.HeadlessBrowserService;
 import org.devdaniel.clone.service.ProfileService;
 import org.devdaniel.clone.service.SiteClonerService;
@@ -28,12 +29,14 @@ public class ClonerPageController {
     private final HeadlessBrowserService headlessBrowserService;
     private final ProfileRepository profileRepository;
     private final ProfileService profileService;
+    private final FeedService feedService;
 
-    public ClonerPageController(SiteClonerService clonerService, HeadlessBrowserService headlessBrowserService, ProfileRepository profileRepository, ProfileService profileService) {
+    public ClonerPageController(SiteClonerService clonerService, HeadlessBrowserService headlessBrowserService, ProfileRepository profileRepository, ProfileService profileService, FeedService feedService) {
         this.clonerService = clonerService;
         this.headlessBrowserService = headlessBrowserService;
         this.profileRepository = profileRepository;
         this.profileService = profileService;
+        this.feedService = feedService;
     }
 
     @GetMapping({"/clonar"})
@@ -97,6 +100,7 @@ public class ClonerPageController {
 
     @GetMapping("/admin")
     public String adminPage(Model model) {
+        model.addAttribute("feedbacks", feedService.getAllFeeds());
         return "admin";
     }
 
@@ -108,6 +112,16 @@ public class ClonerPageController {
     @GetMapping("/dicas")
     public String dicasPage(Model model) {
         return "dicas";
+    }
+
+    @GetMapping("/feedback")
+    public String feedbackPage(Model model) {
+        return "feedback";
+    }
+
+    @GetMapping("/teste")
+    public String testPage(Model model) {
+        return "teste";
     }
 
 }

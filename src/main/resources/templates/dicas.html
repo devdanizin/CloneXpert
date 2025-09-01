@@ -25,6 +25,11 @@
             color: #222;
         }
 
+        body.dark {
+            background: #181c24;
+            color: #e2e8f0;
+        }
+
         /* Navbar */
         nav.navbar {
             background: #3b82f6;
@@ -52,11 +57,48 @@
             background-color: #1d4ed8;
             box-shadow: 0 7px 20px rgb(29 78 216 / 0.7);
         }
+        body.dark nav.navbar {
+            background: #23293a;
+        }
 
         /* Container */
         .container {
             max-width: 900px;
             padding: 2rem 1rem;
+        }
+        body.dark .container {
+            background: #23293a;
+            color: #e2e8f0;
+        }
+        body.dark .card {
+            background: #23293a;
+            color: #e2e8f0;
+            box-shadow: 0 10px 28px rgba(10, 20, 35, 0.5);
+        }
+        body.dark .card-header {
+            background: #23293a;
+            color: #81aaff;
+        }
+        body.dark .btn-outline-danger {
+            color: #ffe066;
+            border-color: #ffe066;
+        }
+        body.dark .btn-outline-danger:hover,
+        body.dark .btn-outline-danger:focus {
+            background-color: #ffe066;
+            color: #23293a;
+        }
+        body.dark #darkModeToggle {
+            color: #ffe066;
+        }
+        body.dark h1, body.dark h2 {
+            color: #81aaff;
+        }
+        body.dark p, body.dark ul {
+            color: #e2e8f0;
+        }
+        body.dark footer {
+            color: #a5b4fc;
         }
 
         h1 {
@@ -98,6 +140,23 @@
             user-select: none;
         }
 
+        /* Botão modo escuro */
+        #darkModeToggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            color: #222; /* preto no modo claro */
+            z-index: 2000;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        body.dark #darkModeToggle {
+            color: #ffe066;
+        }
+
         /* Responsividade */
         @media (max-width: 576px) {
             .container {
@@ -107,6 +166,9 @@
     </style>
 </head>
 <body>
+<button id="darkModeToggle" aria-label="Alternar modo claro/escuro" title="Modo escuro">
+    <i class="bi bi-moon-stars"></i>
+</button>
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light shadow-sm" role="navigation" aria-label="Menu principal CloneXpert">
@@ -198,5 +260,23 @@
 
 <!-- Bootstrap JS -->
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+    // Modo escuro
+    const darkToggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+    const icon = darkToggle.querySelector('i');
+    if (localStorage.getItem('cloneXpertDarkMode') === 'true') {
+        body.classList.add('dark');
+        icon.className = 'bi bi-sun-fill';
+        darkToggle.setAttribute('aria-pressed', 'true');
+    }
+    darkToggle.addEventListener('click', () => {
+        body.classList.toggle('dark');
+        const isDark = body.classList.contains('dark');
+        localStorage.setItem('cloneXpertDarkMode', isDark);
+        icon.className = isDark ? 'bi bi-sun-fill' : 'bi bi-moon-stars';
+        darkToggle.setAttribute('aria-pressed', isDark.toString());
+    });
+</script>
 </body>
 </html>

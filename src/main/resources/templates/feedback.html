@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Enviar Feedback - CloneXpert</title>
+    <link rel="shortcut icon" th:href="@{/3.png}" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff, #d9e4ff);
+            min-height: 100vh;
+            margin: 0;
+            color: #222;
+        }
+        body.dark {
+            background: #181c24;
+            color: #e2e8f0;
+        }
+        nav.navbar {
+            background: #3b82f6;
+            box-shadow: 0 4px 15px rgb(59 130 246 / 0.3);
+            padding: 0.85rem 1.5rem;
+        }
+        body.dark nav.navbar {
+            background: #23293a;
+        }
+        .container {
+            max-width: 480px;
+            margin: 4rem auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 28px rgba(40, 60, 90, 0.07);
+            padding: 2.5rem 2rem;
+        }
+        body.dark .container {
+            background: #23293a;
+            color: #e2e8f0;
+            box-shadow: 0 10px 28px rgba(10, 20, 35, 0.5);
+        }
+        h1 {
+            font-size: 2.2rem;
+            color: #2a6ef7;
+            font-weight: 800;
+            margin-bottom: 1.2rem;
+            text-align: center;
+        }
+        body.dark h1 {
+            color: #81aaff;
+        }
+        label {
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+        .form-control {
+            border-radius: 10px;
+            margin-bottom: 1.2rem;
+            background: #fff;
+            color: #222;
+        }
+        body.dark .form-control {
+            background: #23293a;
+            color: #e2e8f0;
+            border: 1px solid #444;
+        }
+        .btn-primary {
+            background-color: #22c55e;
+            border-radius: 12px;
+            font-weight: 700;
+            padding: 0.8rem 2.2rem;
+            font-size: 1.1rem;
+            border: none;
+            color: white;
+        }
+        body.dark .btn-primary {
+            background-color: #15803d;
+            color: #e2e8f0;
+        }
+        .back-link {
+            display: block;
+            margin-top: 2rem;
+            text-align: center;
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        body.dark .back-link {
+            color: #81aaff;
+        }
+        .back-link:hover {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+        body.dark .back-link:hover {
+            color: #4f7bcc;
+        }
+        footer {
+            margin-top: 60px;
+            padding: 24px 0;
+            text-align: center;
+            color: #64748b;
+            font-weight: 500;
+            font-size: 0.95rem;
+            user-select: none;
+        }
+        body.dark footer {
+            color: #a5b4fc;
+        }
+        /* Botão modo escuro */
+        #darkModeToggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            color: #222; /* preto no modo claro */
+            z-index: 2000;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        body.dark #darkModeToggle {
+            color: #ffe066;
+        }
+    </style>
+</head>
+<body>
+<button id="darkModeToggle" aria-label="Alternar modo claro/escuro" title="Modo escuro">
+    <i class="bi bi-moon-stars"></i>
+</button>
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm" role="navigation" aria-label="Menu principal CloneXpert">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/painel}" aria-label="Painel do usuário">CloneXpert</a>
+    </div>
+</nav>
+<div class="container">
+    <h1><i class="bi bi-chat-dots"></i> Enviar Feedback</h1>
+    <form id="feedbackForm">
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nome" name="name" required>
+        </div>
+        <div class="mb-3">
+            <label for="mensagem" class="form-label">Mensagem</label>
+            <textarea class="form-control" id="mensagem" name="message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">
+            <i class="bi bi-send"></i> Enviar
+        </button>
+    </form>
+
+    <!-- Mensagens de sucesso/erro -->
+    <div id="successMessage" class="alert alert-success mt-3" style="display:none;">
+        <i class="bi bi-check-circle-fill"></i> Feedback enviado com sucesso!
+    </div>
+    <div id="errorMessage" class="alert alert-danger mt-3" style="display:none;">
+        <i class="bi bi-x-circle-fill"></i> Ocorreu um erro ao enviar seu feedback. Tente novamente.
+    </div>
+
+    <a th:href="@{/panel}" class="back-link"><i class="bi bi-arrow-left"></i> Voltar para o Painel</a>
+</div>
+<footer>
+    <p>&copy; 2025 CloneXpert. Todos os direitos reservados.</p>
+</footer>
+<a href="https://wa.me/554731701794" target="_blank"
+   aria-label="Contato pelo WhatsApp"
+   style="
+     position: fixed;
+     bottom: 20px;
+     right: 20px;
+     background-color: #25D366;
+     color: white;
+     border-radius: 50%;
+     width: 60px;
+     height: 60px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+     z-index: 1000;
+     text-decoration: none;
+     font-size: 30px;
+     transition: background-color 0.3s ease;
+   "
+   onmouseover="this.style.backgroundColor='#128C7E';"
+   onmouseout="this.style.backgroundColor='#25D366';"
+>
+    <i class="bi bi-whatsapp" aria-hidden="true"></i>
+</a>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+    document.getElementById("feedbackForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const data = {
+            name: document.getElementById("nome").value,
+            message: document.getElementById("mensagem").value
+        };
+
+        const successDiv = document.getElementById("successMessage");
+        const errorDiv = document.getElementById("errorMessage");
+
+        successDiv.style.display = "none";
+        errorDiv.style.display = "none";
+
+        try {
+            const response = await fetch("/api/v1/feedback", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                successDiv.style.display = "block";
+                document.getElementById("feedbackForm").reset();
+                setTimeout(() => {
+                    successDiv.style.display = "none";
+                }, 4000);
+            } else {
+                throw new Error("Erro no servidor");
+            }
+        } catch (error) {
+            errorDiv.style.display = "block";
+            setTimeout(() => {
+                errorDiv.style.display = "none";
+            }, 4000);
+        }
+    });
+
+    // Modo escuro
+    const darkToggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+    const icon = darkToggle.querySelector('i');
+    if (localStorage.getItem('cloneXpertDarkMode') === 'true') {
+        body.classList.add('dark');
+        icon.className = 'bi bi-sun-fill';
+        darkToggle.setAttribute('aria-pressed', 'true');
+    }
+    darkToggle.addEventListener('click', () => {
+        body.classList.toggle('dark');
+        const isDark = body.classList.contains('dark');
+        localStorage.setItem('cloneXpertDarkMode', isDark);
+        icon.className = isDark ? 'bi bi-sun-fill' : 'bi bi-moon-stars';
+        darkToggle.setAttribute('aria-pressed', isDark.toString());
+    });
+</script>
+</body>
+</html>
