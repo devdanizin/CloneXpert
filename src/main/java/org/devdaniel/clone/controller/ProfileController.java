@@ -11,7 +11,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/profiles")
 public class ProfileController {
-
+    // Injeção de dependência do serviço
     private final ProfileService profileService;
 
     public ProfileController(ProfileService profileService) {

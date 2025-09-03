@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Service
 public class ProfileService {
-
+    // Injeção de dependência do repositório
     private final ProfileRepository repository;
     private final PasswordEncoder passwordEncoder;
 
