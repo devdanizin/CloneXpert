@@ -14,7 +14,6 @@ public class ProfileController {
 
     private final ProfileService profileService;
 
-
     public ProfileController(ProfileService profileService) {
         this.profileService = profileService;
     }
@@ -32,9 +31,17 @@ public class ProfileController {
     }
 
     @PostMapping
-    public ResponseEntity<Profile> createProfile(@RequestBody Profile profile) {
-        Profile created = profileService.create(profile);
-        return ResponseEntity.ok(created);
+    public ResponseEntity<?> createProfile(@RequestBody Profile profile) {
+        try {
+            Profile created = profileService.create(profile);
+            return ResponseEntity.ok(created);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(409).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Erro interno ao criar perfil");
+        }
     }
 
     @PutMapping("/{id}")

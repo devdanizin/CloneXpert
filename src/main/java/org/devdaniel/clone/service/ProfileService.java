@@ -2,6 +2,7 @@ package org.devdaniel.clone.service;
 
 import org.devdaniel.clone.entity.Profile;
 import org.devdaniel.clone.repository.ProfileRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +13,11 @@ import java.util.UUID;
 public class ProfileService {
 
     private final ProfileRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
-    public ProfileService(ProfileRepository repository) {
+    public ProfileService(ProfileRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Profile> findAll() {
@@ -26,6 +29,19 @@ public class ProfileService {
     }
 
     public Profile create(Profile profile) {
+        if (profile.getName() == null || profile.getName().isBlank()) {
+            throw new IllegalArgumentException("Nome de usuário obrigatório");
+        }
+        if (profile.getPassword() == null || profile.getPassword().isBlank()) {
+            throw new IllegalArgumentException("Senha obrigatória");
+        }
+        if (profile.getCredit() == null) {
+            throw new IllegalArgumentException("Crédito obrigatório");
+        }
+        if (repository.findByName(profile.getName()).isPresent()) {
+            throw new IllegalStateException("Nome de usuário já existe");
+        }
+        profile.setPassword(passwordEncoder.encode(profile.getPassword()));
         return repository.save(profile);
     }
 
