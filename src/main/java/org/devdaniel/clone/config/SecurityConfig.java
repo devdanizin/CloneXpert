@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/", "/css", "/js", "/icons", "/3.png", "/4.png", "/imgs").permitAll()
-                        .requestMatchers("/api/v1/auth").permitAll()
+                        .requestMatchers("/api/v1/auth").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
